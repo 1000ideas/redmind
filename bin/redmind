@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+
+require 'redmind'
+
+
+args = ARGV.clone
+
+Redmind::Runner.new.run args
