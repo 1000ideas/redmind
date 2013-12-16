@@ -5,4 +5,5 @@ require 'redmind'
 
 args = ARGV.clone
 
-Redmind::Runner.new.run args
+runner = Redmind::Runner.instance
+runner.run args

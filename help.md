@@ -5,7 +5,7 @@ Try specifing an action:
 	- help
 			Displays this info
 
-	- authenticate USERNAME API_TOKEN
+	- authenticate API_TOKEN
 			Authenticates user for further use
 
 	- time START|STOP|LOG TICKET [TIME]
