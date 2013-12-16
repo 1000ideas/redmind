@@ -8,6 +8,9 @@ Try specifing an action:
 	- authenticate API_TOKEN
 			Authenticates user for further use
 
+	- status / issues
+			Displays some development informations
+
 	- time START|STOP|LOG TICKET [TIME]
 			Gives you ability to log / start / stop ticket time 
 
