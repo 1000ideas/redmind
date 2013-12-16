@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'json'
 
-
+#TODO: better user data storing than saving them to the gem root path
 module Redmind
 	class Config
 		@@config_file_path = File.expand_path("./store")

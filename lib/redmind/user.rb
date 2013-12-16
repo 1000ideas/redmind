@@ -1,12 +1,12 @@
 require 'singleton'
 require "redmind/api"
-require "redmind/issues"
+require "redmind/user_modules/issues"
 require 'io/console'
 
 module Redmind
 	class User
 		include Singleton
-		include Issues
+		include UserModules::Issues
 
 
 		def status

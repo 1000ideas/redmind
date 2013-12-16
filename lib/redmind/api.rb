@@ -1,15 +1,18 @@
 require 'rubygems'
 require 'json'
 require 'open-uri'
+require 'redmind/api_modules/users'
+require 'redmind/api_modules/issues'
 
 module Redmind
 	class API
+		include APIModules::Users
+		include APIModules::Issues
 		attr_accessor :host, :token
 
-		def current_user
-			result = get_json "users/current"
-
-			result["user"]
+		def initialize(config)
+			@host = config.get :host
+			@token = config.get :token
 		end
 
 		private

@@ -12,19 +12,17 @@ module Redmind
 		def initialize
 			@config ||= Config.new
 			@config.set host: "https://redmine.1000i.pl/"
-			@api ||= API.new
-			@api.host = @config.get :host
-			@api.token = @config.get :token
+			@api ||= API.new(@config)
 		end
 
 		def run args
+			user = User.instance
 			case args[0] when "status"
-				User.instance.status
+				user.status
 			when "issues"
-				User.instance.issues.test
+				user.issues
 			when "authenticate"
-				User.instance.authenticate *args.drop(1)
-				@api.token = @config.get :token
+				user.authenticate *args.drop(1)
 			else #default - display help
 				puts "Unknown command #{args[0]}" if !args.empty? and (args[0] =~ /\bhelp|\?|h\b/).nil?
 				puts File.read(File.expand_path("./help.md"))
