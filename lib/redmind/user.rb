@@ -12,7 +12,7 @@ module Redmind
 		def status
 			if authenticated?
 				puts "You are #{current :login}"
-				puts "You have #{issues}"
+				puts "You have #{issues_count} issues"
 			else
 				puts "You are not logged in. Use authenticate to set the token."
 			end
@@ -44,7 +44,8 @@ module Redmind
 
 		private
 		def authenticated?
-			!Runner.instance.config.get( :token ).empty?
+			token = Runner.instance.config.get( :token )
+			token && !token.empty?
 		end
 	end
 end
