@@ -4,7 +4,7 @@ module Redmind
 			module InstanceMethods
 
 				def issues
-					result = get_json "issues"
+					result = get_json "table_it"
 
 					result["issues"]
 				end
@@ -22,14 +22,18 @@ module Redmind
 
 			def start_time(id)
 				post_json('plugin_app/start_time', issue_id: id)
+				puts "Start ##{id}"
 			end
 
 			def stop_time(id)
-				post_json('plugin_app/stop_time', issue_id: id)
+				rsp = post_json('plugin_app/stop_time', issue_id: id)
+				time = (rsp["time"] || 0.0)
+				puts "Stop ##{id}. Activity time: %.2f" % [time]
 			end
 
 			def log_time(id, time)
-				post_json('plugin_app/add_time', issue_id: id, time: time)
+				rsp = post_json('plugin_app/add_time', issue_id: id, time: time)
+				puts "Add time to ##{id}"
 			end
 
 		end

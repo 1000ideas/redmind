@@ -15,12 +15,18 @@ module Redmind
 			def issues
 				puts "You have #{issues_count} issues"
 				api.issues.each do |issue|
-					puts "##{issue["id"]} #{issue["subject"]}"
+					play = issue.has_key?("play")
+
+					puts "##{issue["id"]} | #{issue["project"]["name"]} | #{issue["subject"]} | #{"*" if play}"
 				end
 			end
 
 			def time(action, id, time = nil)
 				action = action.to_sym if action
+				id = get_id(id)
+				
+				raise ArgumentError, "Specify valid issue ID" if id.nil?
+				
 				case action
 				when :START then
 					api.start_time(id)
@@ -32,6 +38,22 @@ module Redmind
 					raise ArgumentError, "Unknown action #{action}"
 				end
 			end
+
+			private
+
+			def get_id(id)
+				if id == "current" or id.nil?
+					user_id = api.current_user["id"]
+
+					issue = api.issues.find do |issue|
+						issue.has_key?("play") and (issue['assigned_to']["id"] == user_id)
+					end
+					issue["id"] unless issue.nil?
+				else
+					id
+				end
+			end
+			
 		end
 	end
 end
