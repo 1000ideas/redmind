@@ -39,6 +39,14 @@ module Redmind
 				end
 			end
 
+			def close(id, comment)
+				id = get_id(id)
+				
+				raise ArgumentError, "Specify valid issue ID" if id.nil?
+
+				api.close_issue(id, comment)
+			end
+
 			private
 
 			def get_id(id)

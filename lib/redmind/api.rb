@@ -38,16 +38,23 @@ module Redmind
 			{}
 		end
 
+		def put_json(*args)
+			data = args.pop
+			args.push(data: data, type: "PUT")
+			result = call( *args )
+			JSON.parse result
+		rescue JSON::ParserError
+			{}
+		end
+
 		def call(*args)
 			options = args.last.is_a?(::Hash) ? args.pop : {}
 
 			method = args.first || options.delete(:method)
 			type = options.delete(:type) || "GET"
-			data = options.delete(:data) || {}
+			data = options.delete(:data) || ""
 			@token = options.delete(:token) || @token
 			@host = options.delete(:host) || @host
-
-
 
 			if method.nil?
 				raise "Wrong parameters in call to Redmine API #{options.inspect}"
@@ -58,7 +65,12 @@ module Redmind
 				"X-Redmine-API-Key" => @token
 			}
 
-			query = URI.encode_www_form(data)
+			query = if data.is_a?(Hash)
+				URI.encode_www_form(data)
+			else
+				headers["Content-Type"] = "application/json"
+				data
+			end
 
 			response = http.send_request(type, uri, query, headers)
 			response.body
